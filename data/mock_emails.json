@@ -1,0 +1,86 @@
+[
+  {
+    "id": "mock-001",
+    "from": "sarah.client@acme-corp.com",
+    "subject": "URGENT: Payment failed on our enterprise plan",
+    "body": "Hi team, our monthly payment just failed and the dashboard now says our account is suspended. This is blocking our entire team from working. Please fix this billing issue as soon as possible, we have a launch tomorrow.",
+    "received_at": "2026-06-04T08:12:00Z"
+  },
+  {
+    "id": "mock-002",
+    "from": "no-reply@newsletter.devweekly.com",
+    "subject": "DevWeekly #312 — 10 VS Code extensions you missed",
+    "body": "This week in development: editor tips, a new JS framework, and our favourite terminal themes. Unsubscribe any time at the bottom of this email.",
+    "received_at": "2026-06-04T08:20:00Z"
+  },
+  {
+    "id": "mock-003",
+    "from": "monitoring@status.internal.io",
+    "subject": "[ALERT] Production API is DOWN — 500 errors spiking",
+    "body": "PagerDuty alert: the production API has been returning 500 errors for the last 4 minutes. Error rate is 92%. Customers are reporting they cannot log in. On-call engineer please acknowledge immediately.",
+    "received_at": "2026-06-04T08:25:00Z"
+  },
+  {
+    "id": "mock-004",
+    "from": "angry.customer@gmail.com",
+    "subject": "Extremely disappointed - cancelling my subscription",
+    "body": "I have contacted support three times this week and nobody has replied. Your product deleted my data and I want a refund immediately. If I do not hear back today I am disputing the charge and leaving a public review.",
+    "received_at": "2026-06-04T08:31:00Z"
+  },
+  {
+    "id": "mock-005",
+    "from": "promotions@shop-deals.com",
+    "subject": "🔥 50% OFF everything — 24 hours only!",
+    "body": "Our biggest sale of the year is here. Save 50% on all items today only. Click here to claim your discount code. Limited stock available.",
+    "received_at": "2026-06-04T08:40:00Z"
+  },
+  {
+    "id": "mock-006",
+    "from": "billing@stripe.com",
+    "subject": "Your invoice #INV-2031 could not be charged",
+    "body": "We attempted to charge your card ending in 4242 for $499.00 but the payment was declined by your bank. Please update your payment method within 3 days to avoid service interruption.",
+    "received_at": "2026-06-04T08:45:00Z"
+  },
+  {
+    "id": "mock-007",
+    "from": "hr@tqtech.ie",
+    "subject": "Reminder: team lunch on Friday",
+    "body": "Just a friendly reminder that the monthly team lunch is this Friday at 1pm. Let us know your food preferences by Thursday. No action urgently needed.",
+    "received_at": "2026-06-04T09:00:00Z"
+  },
+  {
+    "id": "mock-008",
+    "from": "linkedin@e.linkedin.com",
+    "subject": "You appeared in 9 searches this week",
+    "body": "See who has been viewing your profile and who is hiring in your area. Upgrade to Premium to see more insights.",
+    "received_at": "2026-06-04T09:05:00Z"
+  },
+  {
+    "id": "mock-009",
+    "from": "ops.lead@bigclient.com",
+    "subject": "Request: urgent help integrating your API before contract renewal",
+    "body": "Hi, our renewal is up next week and our integration is failing on the webhook signature check. Could someone from your engineering team jump on a call today? This is important for us to renew.",
+    "received_at": "2026-06-04T09:15:00Z"
+  },
+  {
+    "id": "mock-010",
+    "from": "noreply@medium.com",
+    "subject": "Stories for you on Medium",
+    "body": "Based on your reading history, here are some stories we think you'll enjoy this week. Happy reading!",
+    "received_at": "2026-06-04T09:20:00Z"
+  },
+  {
+    "id": "mock-011",
+    "from": "security@yourbank.com",
+    "subject": "Unusual sign-in attempt blocked on your account",
+    "body": "We blocked a sign-in attempt from a new device in another country. If this was not you, please secure your account immediately by resetting your password.",
+    "received_at": "2026-06-04T09:30:00Z"
+  },
+  {
+    "id": "mock-012",
+    "from": "weekly-digest@producthunt.com",
+    "subject": "The 5 hottest products this week",
+    "body": "Check out this week's top launches from the maker community. Vote for your favourites and discover new tools.",
+    "received_at": "2026-06-04T09:35:00Z"
+  }
+]

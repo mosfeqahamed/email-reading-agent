@@ -1,0 +1,33 @@
+services:
+  # The agent: polls the inbox, classifies emails, writes important ones to SQLite.
+  agent:
+    build: .
+    command: python -m app.agent
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DB_PATH: /data/agent.db
+    volumes:
+      - db-data:/data
+    restart: unless-stopped
+
+  # The dashboard: reads SQLite and serves the notification UI.
+  dashboard:
+    build: .
+    command: uvicorn app.dashboard:app --host 0.0.0.0 --port 8000
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DB_PATH: /data/agent.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - db-data:/data
+    depends_on:
+      - agent
+    restart: unless-stopped
+
+volumes:
+  db-data:
