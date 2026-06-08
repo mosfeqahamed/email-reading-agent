@@ -4,7 +4,9 @@ Run with:  uvicorn app.dashboard:app --host 0.0.0.0 --port 8000
 """
 from __future__ import annotations
 
+import logging
 import os
+import threading
 from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
@@ -15,11 +17,27 @@ from . import db
 
 load_dotenv()
 
+log = logging.getLogger("dashboard")
+
+
+def _truthy(value: str | None) -> bool:
+    return (value or "").strip().lower() in {"1", "true", "yes", "on"}
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure tables exist even if the dashboard starts before the agent.
     db.init_db()
+
+    # Single-process mode (e.g. Render free tier, where the agent can't run as a
+    # separate service): start the agent poll loop in a background thread so one
+    # web service does both jobs. Docker/local keep them as two services.
+    if _truthy(os.getenv("RUN_AGENT_IN_PROCESS")):
+        from .agent import run_forever
+
+        log.info("RUN_AGENT_IN_PROCESS set — starting agent loop in background thread")
+        threading.Thread(target=run_forever, name="agent-loop", daemon=True).start()
+
     yield
 
 

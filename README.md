@@ -67,6 +67,34 @@ inline env vars are needed.
 
 ---
 
+## Deploy on Render (live demo link)
+
+Render's free tier has no background workers and no shared disk between
+services, so the two-service model doesn't fit. Instead, the agent runs **inside
+the web service** as a background thread, enabled by `RUN_AGENT_IN_PROCESS=1`.
+One process does both jobs and SQLite works in the same container. A
+[`render.yaml`](render.yaml) Blueprint is included.
+
+1. Push this repo to GitHub.
+2. In Render: **New → Blueprint** → select the repo. It reads `render.yaml` and
+   creates one **Web Service** (free plan).
+3. Set the secret env vars in the Render UI (they're marked `sync: false` so they
+   are *never* stored in the repo): `DEEPSEEK_API_KEY`, and `GMAIL_USER` /
+   `GMAIL_APP_PASSWORD` if you switch `EMAIL_SOURCE` to `gmail`.
+4. Deploy → open the Render URL. The dashboard loads and the in-process agent
+   fills it within one poll cycle.
+
+**Build:** `pip install uv && uv sync --frozen`
+**Start:** `uv run uvicorn app.dashboard:app --host 0.0.0.0 --port $PORT`
+
+> Notes: SQLite is **ephemeral** on free Render (resets on redeploy / spin-down) —
+> fine here, since mock data repopulates each cycle. Free web services also sleep
+> after ~15 min idle and cold-start on the next visit, pausing the agent until
+> then. For always-on persistence, use a paid plan with a managed Postgres and
+> swap the small `app/db.py` layer.
+
+---
+
 ## How the AI works (the heart of the system)
 
 The classifier is a **hybrid**: a deterministic rule-based engine with an
@@ -179,6 +207,7 @@ Copy `.env.example` → `.env` and edit. Every variable is documented in the fil
 | `IMAP_FOLDER` | Gmail mailbox/label to read | `INBOX` |
 | `GMAIL_MAX_FETCH` | newest unread emails processed per cycle | `20` |
 | `DB_PATH` | SQLite path (Compose overrides to the shared volume) | `data/agent.db` |
+| `RUN_AGENT_IN_PROCESS` | run the agent loop inside the dashboard (single-service deploys like Render) | *(unset)* |
 
 > **Never commit real secrets.** `.env` is git-ignored; only `.env.example`
 > (with empty values) is tracked.

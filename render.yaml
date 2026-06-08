@@ -1,0 +1,41 @@
+# Render Blueprint — deploys the agent + dashboard as ONE web service.
+#
+# Render's free tier has no background workers and no shared disk between
+# services, so the agent runs inside the web service via RUN_AGENT_IN_PROCESS=1
+# (a background thread). One process, one filesystem → SQLite works.
+#
+# Deploy: push to GitHub, then in Render: New → Blueprint → pick this repo.
+# Set the secret env vars (DEEPSEEK_API_KEY, Gmail creds) in the Render UI.
+services:
+  - type: web
+    name: email-reading-agent
+    runtime: python
+    plan: free
+    buildCommand: pip install uv && uv sync --frozen
+    startCommand: uv run uvicorn app.dashboard:app --host 0.0.0.0 --port $PORT
+    envVars:
+      # Run the agent loop inside the web service (Render single-service mode).
+      - key: RUN_AGENT_IN_PROCESS
+        value: "1"
+      # Mock mode needs no credentials — change to "gmail" + set creds to use a
+      # real inbox.
+      - key: EMAIL_SOURCE
+        value: mock
+      - key: POLL_INTERVAL
+        value: "120"
+      # Ephemeral SQLite path inside the container (resets on redeploy — fine for
+      # a demo; mock data repopulates each cycle).
+      - key: DB_PATH
+        value: /tmp/agent.db
+      # ── Secrets: set these in the Render dashboard, NOT here ──
+      # sync: false means "prompt me in the UI, don't store in the repo".
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com
+      - key: DEEPSEEK_MODEL
+        value: deepseek-chat
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
